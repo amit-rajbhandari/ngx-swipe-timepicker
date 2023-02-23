@@ -1,0 +1,142 @@
+<fieldset class="form-group cursor-pointer">
+  <label class="input-label" *ngIf="varient === 'input' && label">
+    {{ label }}
+  </label>
+
+  <div
+    class="relative"
+    [ngClass]="{
+      hidden: varient === 'button'
+    }"
+  >
+    <input
+      class="input-field"
+      [ngClass]="{
+        'field-error': hasError
+      }"
+      [attr.id]="inputId"
+      [attr.data-id]="dataId"
+      type="text"
+      [ngModel]="value"
+      (ngModelChange)="handleChange($event)"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      (blur)="handleTouch()"
+      (focus)="isOpen = true"
+      readonly
+    />
+
+    <button
+      *ngIf="varient === 'input'"
+      type="button"
+      class="w-6 h-6 rounded-full bg-transparent border-0 absolute top-1/2 right-2 -translate-y-1/2"
+      (click)="handleTogglePicker()"
+    >
+      <img src="assets/icons/clock.svg" alt="" />
+    </button>
+  </div>
+
+  <button
+    *ngIf="varient === 'button'"
+    type="button"
+    class="min-w-[80px] text-center text-sm bg-[#F3F3F6] py-1.5 px-2.5 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
+    (click)="handleTogglePicker()"
+  >
+    <small class="text-sm">
+      {{ value || placeholder || 'Time' }}
+    </small>
+  </button>
+
+  <ng-content>
+    <!-- Input validation error and informations will be rendered here -->
+  </ng-content>
+</fieldset>
+
+<div
+  class="w-full h-[250px] flex justify-end absolute top-full right-0 gap-1 text-lg bg-white overflow-hidden z-[1]"
+  [ngClass]="{ hidden: !isOpen, 'rounded-lg shadow-lg': pickerVarient === 'floating' }"
+>
+  <!-- **** 
+    Note: Remove free-mode to auto centerlized active element,
+    But removing it might feel some laggy and smoothness issue while swiping/scrolling through time 
+  **** -->
+  <!-- Hours -->
+  <swiper-container
+    #hour
+    class="picker-items hours"
+    scrollbar="false"
+    direction="vertical"
+    free-mode="true"
+    slides-per-view="5"
+    mousewheel="true"
+    centered-slides="true"
+    [slideToClickedSlide]="true"
+    (activeindexchange)="handleHourChange()"
+  >
+    <swiper-slide *ngFor="let hour of hourList" class="time-item">
+      <!-- empty span needed for click to work -->
+      <span>{{ hour }}</span>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- Minutes -->
+  <swiper-container
+    #minute
+    class="picker-items minutes"
+    scrollbar="false"
+    direction="vertical"
+    free-mode="true"
+    slides-per-view="5"
+    mousewheel="true"
+    centered-slides="true"
+    [slideToClickedSlide]="true"
+    (activeindexchange)="handleMinuteChange()"
+  >
+    <swiper-slide *ngFor="let minute of minuteList" class="time-item">
+      <!-- empty span needed for click to work -->
+      <span>{{ minute }}</span>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- Seconds -->
+  <swiper-container
+    #second
+    class="picker-items seconds"
+    scrollbar="false"
+    direction="vertical"
+    free-mode="true"
+    slides-per-view="5"
+    mousewheel="true"
+    centered-slides="true"
+    [slideToClickedSlide]="true"
+    (activeindexchange)="handleSecondChange()"
+    *ngIf="enableSeconds"
+  >
+    <swiper-slide *ngFor="let second of secondList" class="time-item">
+      <!-- empty span needed for click to work -->
+      <span>{{ second }}</span>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- AM/PM -->
+  <swiper-container
+    #amPm
+    class="picker-items ampm"
+    scrollbar="false"
+    direction="vertical"
+    free-mode="true"
+    slides-per-view="5"
+    mousewheel="true"
+    centered-slides="true"
+    [slideToClickedSlide]="true"
+    (activeindexchange)="handleAmPmChange()"
+    *ngIf="isTwelveHourFormat"
+  >
+    <swiper-slide *ngFor="let ampm of amPmList" class="time-item">
+      <!-- empty span needed for click to work -->
+      <span>{{ ampm }}</span>
+    </swiper-slide>
+  </swiper-container>
+
+  <span class="selection-area"></span>
+</div>

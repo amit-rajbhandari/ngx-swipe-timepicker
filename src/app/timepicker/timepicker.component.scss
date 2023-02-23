@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.form-group {
+  @apply flex flex-col gap-1.5 relative overflow-hidden;
+}
+
+.input-label {
+  @apply text-neutral-70 text-sm font-normal leading-5;
+}
+
+.input-field {
+  @apply w-full border border-solid border-neutral-50 rounded pl-4 pr-12 py-3 h-11 placeholder:text-neutral-50 outline-none focus:ring-1 focus:ring-midnight-100 disabled:opacity-60;
+}
+
+.field-error {
+  @apply border-alizarinCrimson focus:ring-alizarinCrimson;
+}
+
+$selectionAreaHeight: 50px;
+.picker-items {
+  height: 100%;
+  margin-left: 0;
+  margin-right: 0;
+
+  swiper-slide {
+    width: 50px;
+    height: $selectionAreaHeight;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    color: #c7c7c7;
+    font-size: 14px;
+    transition: 300ms ease;
+    cursor: pointer;
+
+    @apply snap-center;
+
+    &.swiper-slide-active {
+      color: #000000;
+      font-size: 18px;
+    }
+
+    &.swiper-slide-active ~ .time-item {
+      color: #000000;
+    }
+  }
+}
+
+.selection-area {
+  width: 100%;
+  height: $selectionAreaHeight;
+  position: absolute;
+  top: 50%;
+  background-color: #e7e7e7;
+  opacity: 0.5;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+::ng-deep .picker-parent {
+  position: relative;
+
+  &.picker-open {
+    margin-bottom: 250px; // picker height
+  }
+
+  &[class*='picker-open-'] {
+    margin-bottom: 250px; // picker height
+  }
+
+  app-timepicker {
+    position: static;
+  }
+}
