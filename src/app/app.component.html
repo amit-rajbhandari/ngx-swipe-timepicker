@@ -15,36 +15,36 @@
   >
     <h2 class="text-xl font-semibold mb-4 text-purple-800">Input TimePicker</h2>
     <div class="grid grid-cols-12 xl:grid-cols-4 gap-5 items-start">
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="input"
         label="Simple Picker"
         [enableSeconds]="true"
         [isTwelveHourFormat]="true"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="input"
         label="24hour Picker"
         [enableSeconds]="true"
         [isTwelveHourFormat]="false"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="input"
         [stepper]="15"
         [isTwelveHourFormat]="true"
         [enableSeconds]="true"
         label="Stepper Picker (15)"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
       <div id="input-stack-picker">
-        <app-timepicker
+        <ngx-swipe-timepicker
           varient="input"
           [isTwelveHourFormat]="true"
           pickerParent="#input-stack-picker"
           pickerVarient="stacked"
           label="Picker with parent selector and stacked"
-        ></app-timepicker>
+        ></ngx-swipe-timepicker>
       </div>
     </div>
   </section>
@@ -55,36 +55,36 @@
   >
     <h2 class="text-xl font-semibold mb-4 text-purple-800">Button TimePicker</h2>
     <div class="grid grid-cols-12 xl:grid-cols-4 gap-5 items-start">
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="button"
         [enableSeconds]="true"
         [isTwelveHourFormat]="true"
         placeholder="Simple Picker"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="button"
         [enableSeconds]="true"
         [isTwelveHourFormat]="false"
         placeholder="24hour Picker"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
-      <app-timepicker
+      <ngx-swipe-timepicker
         varient="button"
         [stepper]="15"
         [enableSeconds]="true"
         [isTwelveHourFormat]="true"
         placeholder="Stepper Picker (15)"
-      ></app-timepicker>
+      ></ngx-swipe-timepicker>
 
       <div id="button-stack-picker">
-        <app-timepicker
+        <ngx-swipe-timepicker
           varient="button"
           [isTwelveHourFormat]="true"
           pickerParent="#button-stack-picker"
           pickerVarient="stacked"
           placeholder="Picker with parent selector and stacked"
-        ></app-timepicker>
+        ></ngx-swipe-timepicker>
       </div>
     </div>
   </section>

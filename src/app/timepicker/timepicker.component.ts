@@ -19,7 +19,7 @@ import { format, parseISO } from 'date-fns';
 import { Swiper } from 'swiper';
 
 @Component({
-  selector: 'app-timepicker',
+  selector: 'ngx-swipe-timepicker',
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
   providers: [
@@ -55,7 +55,7 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   @Input() hasError = false;
 
-  @Output() handleOnChange: EventEmitter<string> = new EventEmitter();
+  @Output() timeChanged: EventEmitter<string> = new EventEmitter();
 
   @Output() handleOnBlur: EventEmitter<boolean> = new EventEmitter();
 
@@ -155,7 +155,7 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
     if (hoursCount > 1) {
       const startIndex = this.isTwelveHourFormat ? 1 : 0;
-      // eslint-disable-next-line no-plusplus
+
       for (let hourIndex = startIndex; hourIndex < 24; hourIndex++) {
         let hours = hourIndex * 1;
         if (hours >= minHours && hours <= maxHours) {
@@ -177,7 +177,6 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     const minuteItems = [];
     const minuteItemsCount = 60 / this.stepper;
 
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < minuteItemsCount; i++) {
       const minutes = i * this.stepper < 10 ? `0${i * this.stepper}` : `${i * this.stepper}`;
 
@@ -191,7 +190,6 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     const secondItems = [];
     const secondItemsCount = 60 / this.stepper;
 
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < secondItemsCount; i++) {
       const seconds = i * this.stepper < 10 ? `0${i * this.stepper}` : `${i * this.stepper}`;
 
@@ -214,7 +212,6 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
       ampmItems.push('PM');
     }
 
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 5; i++) {
       ampmItems.push('');
     }
@@ -302,7 +299,7 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     this.value = value;
 
     this.onChange(value);
-    this.handleOnChange.emit(value);
+    this.timeChanged.emit(value);
   }
 
   handleTouch() {

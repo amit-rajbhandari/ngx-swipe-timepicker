@@ -1,27 +1,47 @@
-# NgxSwipeTimepicker
+# ngx-swipe-timepicker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
+ngx-swipe-timepicker is a custom timepicker for Angular that allows users to select a time by swiping or scrolling through hours and minutes. The timepicker is built using [Swiper JS](https://swiperjs.com/element) for the swipe/scroll functionality and [Tailwind CSS](https://tailwindcss.com/) for styling.
 
-## Development server
+Please try it out and feel free to modify as required. :)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
+* Swipe/scroll functionality for selecting a time
+* 24-hour time format support
+* Step feature support
+* UI inspiration from IOS timepicker
 
-## Code scaffolding
+## Usage
+Import the NgxSwipeTimepickerModule in your app.module.ts file:
+```typescript
+// app.module.ts file
+import { NgxSwipeTimepickerModule } from '<path/to/ngx-swipe-timepicker/component>';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+@NgModule({
+  imports: [
+    // ...
+    NgxSwipeTimepickerModule,
+  ],
+  // ...
+})
+export class AppModule { }
+```
+Add the timepicker component to your template:
+```html
+<ngx-swipe-timepicker></ngx-swipe-timepicker>
+```
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Configuration
+You can customize the timepicker by passing options to the ngx-swipe-timepicker component:
+```html
+<ngx-swipe-timepicker
+    varient="input" // button or input
+    [enableSeconds]="true" // Enables Seconds swiper in picker
+    [isTwelveHourFormat]="true" // Enables 12 hour format in picker
+    pickerParent="#input-stack-picker" // Selector for picker to be position at.
+    pickerVarient="stacked" // stacked or floating
+    label="Simple Picker"
+    placeholder="Simple Picker"
+    value="00:00" // default value
+    [hasError]="false" // can be used for input validation
+></ngx-swipe-timepicker>
+```
