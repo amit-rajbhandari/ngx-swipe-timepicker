@@ -37,6 +37,7 @@ You can customize the timepicker by passing options to the ngx-swipe-timepicker 
     varient="input" // button or input
     [enableSeconds]="true" // Enables Seconds swiper in picker
     [isTwelveHourFormat]="true" // Enables 12 hour format in picker
+    [stepper]="15" // step for minutes and seconds
     pickerParent="#input-stack-picker" // Selector for picker to be position at.
     pickerVarient="stacked" // stacked or floating
     label="Simple Picker"
