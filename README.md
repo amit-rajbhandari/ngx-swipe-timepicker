@@ -3,13 +3,15 @@
 ngx-swipe-timepicker is a custom timepicker for Angular that allows users to select a time by swiping or scrolling through hours and minutes. The timepicker is built using [Swiper JS](https://swiperjs.com/element) for the swipe/scroll functionality and [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 Please try it out and feel free to modify as required. :)
-
+[label](src/assets/swipper-timepicker.webm)
 ## Features
 * Swipe/scroll functionality for selecting a time
 * 24-hour time format support
 * Step feature support
 * UI inspiration from IOS timepicker
 
+## Installation
+You can clone the repo and check the project:
 ## Usage
 Import the TimePickerModule in your app.module.ts file:
 ```typescript
