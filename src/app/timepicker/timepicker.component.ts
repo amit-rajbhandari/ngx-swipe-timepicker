@@ -1,3 +1,7 @@
+// Intial created at 23rd Feb 2023
+// Name: Amit Rajbhandar
+// email: amitrjbhandari@gmail.com
+
 import {
   AfterViewInit,
   Component,
@@ -185,7 +189,7 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   generateSeconds() {
     const secondItems = [];
-    const secondItemsCount = 60 / 1;
+    const secondItemsCount = 60 / this.stepper;
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < secondItemsCount; i++) {

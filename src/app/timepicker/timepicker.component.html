@@ -39,7 +39,7 @@
   <button
     *ngIf="varient === 'button'"
     type="button"
-    class="min-w-[80px] text-center text-sm bg-[#F3F3F6] py-1.5 px-2.5 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
+    class="min-w-[80px] text-center text-sm bg-[#F3F3F6] py-2 px-2.5 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
     (click)="handleTogglePicker()"
   >
     <small class="text-sm">
@@ -53,8 +53,8 @@
 </fieldset>
 
 <div
-  class="w-full h-[250px] flex justify-end absolute top-full right-0 gap-1 text-lg bg-white overflow-hidden z-[1]"
-  [ngClass]="{ hidden: !isOpen, 'rounded-lg shadow-lg': pickerVarient === 'floating' }"
+  class="w-full h-[250px] flex justify-end absolute top-full right-0 gap-1 text-lg rounded-lg ring-1 ring-slate-700/10 bg-white/70 overflow-hidden z-[1] backdrop-blur-sm"
+  [ngClass]="{ hidden: !isOpen, 'shadow-lg': pickerVarient === 'floating' }"
 >
   <!-- **** 
     Note: Remove free-mode to auto centerlized active element,

@@ -1,24 +1,91 @@
-<div class="container">
-  <h1 class="mb-6 font-semibold text-xl">Time picker</h1>
-  <div class="grid grid-cols-12 xl:grid-cols-4 gap-5">
-    <div class="flex flex-col">
-      <label class="text-sm mb-1">Simple Input Picker</label>
-      <app-timepicker varient="input"></app-timepicker>
-    </div>
+<header class="relative py-5 border-b border-solid border-slate-200">
+  <div class="container flex items-center">
+    <h1 class="font-bold text-2xl">Swiper TimePicker</h1>
+    <nav class="flex-1 flex justify-end gap-4 items-center">
+      <a href="#inputPicker">Input Picker</a>
+      <a href="#buttonPicker">Button Picker</a>
+    </nav>
+  </div>
+</header>
 
-    <div class="flex flex-col">
-      <label class="text-sm mb-1">Stepper Picker (15)</label>
-      <app-timepicker varient="input" [stepper]="15"></app-timepicker>
-    </div>
+<div class="container flex flex-col gap-12 py-6">
+  <section
+    id="inputPicker"
+    class="rounded-md bg-white p-5 py-6 text-[0.8125rem] leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10"
+  >
+    <h2 class="text-xl font-semibold mb-4 text-purple-800">Input TimePicker</h2>
+    <div class="grid grid-cols-12 xl:grid-cols-4 gap-5 items-start">
+      <app-timepicker
+        varient="input"
+        label="Simple Picker"
+        [enableSeconds]="true"
+        [isTwelveHourFormat]="true"
+      ></app-timepicker>
 
-    <div class="flex flex-col stack-picker">
-      <label class="text-sm mb-1">Picker with parent selector and stacked</label>
+      <app-timepicker
+        varient="input"
+        label="24hour Picker"
+        [enableSeconds]="true"
+        [isTwelveHourFormat]="false"
+      ></app-timepicker>
+
       <app-timepicker
         varient="input"
         [stepper]="15"
-        pickerParent="stack-picker"
-        pickerVarient="stacked"
+        [isTwelveHourFormat]="true"
+        [enableSeconds]="true"
+        label="Stepper Picker (15)"
       ></app-timepicker>
+
+      <div id="input-stack-picker">
+        <app-timepicker
+          varient="input"
+          [isTwelveHourFormat]="true"
+          pickerParent="#input-stack-picker"
+          pickerVarient="stacked"
+          label="Picker with parent selector and stacked"
+        ></app-timepicker>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section
+    id="buttonPicker"
+    class="rounded-md bg-white p-5 py-6 text-[0.8125rem] leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10"
+  >
+    <h2 class="text-xl font-semibold mb-4 text-purple-800">Button TimePicker</h2>
+    <div class="grid grid-cols-12 xl:grid-cols-4 gap-5 items-start">
+      <app-timepicker
+        varient="button"
+        [enableSeconds]="true"
+        [isTwelveHourFormat]="true"
+        placeholder="Simple Picker"
+      ></app-timepicker>
+
+      <app-timepicker
+        varient="button"
+        [enableSeconds]="true"
+        [isTwelveHourFormat]="false"
+        placeholder="24hour Picker"
+      ></app-timepicker>
+
+      <app-timepicker
+        varient="button"
+        [stepper]="15"
+        [enableSeconds]="true"
+        [isTwelveHourFormat]="true"
+        placeholder="Stepper Picker (15)"
+      ></app-timepicker>
+
+      <div id="button-stack-picker">
+        <app-timepicker
+          varient="button"
+          [isTwelveHourFormat]="true"
+          pickerParent="#button-stack-picker"
+          pickerVarient="stacked"
+          placeholder="Picker with parent selector and stacked"
+        ></app-timepicker>
+      </div>
+    </div>
+  </section>
 </div>
