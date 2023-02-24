@@ -11,15 +11,15 @@ Please try it out and feel free to modify as required. :)
 * UI inspiration from IOS timepicker
 
 ## Usage
-Import the NgxSwipeTimepickerModule in your app.module.ts file:
+Import the TimePickerModule in your app.module.ts file:
 ```typescript
 // app.module.ts file
-import { NgxSwipeTimepickerModule } from '<path/to/ngx-swipe-timepicker/component>';
+import { TimePickerModule } from '<path/to/ngx-swipe-timepicker/component>';
 
 @NgModule({
   imports: [
     // ...
-    NgxSwipeTimepickerModule,
+    TimePickerModule,
   ],
   // ...
 })
