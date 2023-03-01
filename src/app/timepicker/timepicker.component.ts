@@ -15,7 +15,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { format, parseISO } from 'date-fns';
+import { endOfDay, format, parseISO, startOfDay } from 'date-fns';
 import { Swiper } from 'swiper';
 
 @Component({
@@ -39,6 +39,8 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   @Input() pickerParent = '';
 
+  @Input() hourStepper = 1;
+
   @Input() stepper = 1;
 
   @Input() isTwelveHourFormat = false;
@@ -55,11 +57,15 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   @Input() hasError = false;
 
+  @Input() minValue: Date | string = '';
+
+  @Input() maxValue: Date | string = '';
+
+  @Input() disabled = false;
+
   @Output() timeChanged: EventEmitter<string> = new EventEmitter();
 
   @Output() handleOnBlur: EventEmitter<boolean> = new EventEmitter();
-
-  @Input() disabled = false;
 
   @ViewChild('hour') hourRef?: ElementRef;
 
@@ -71,9 +77,9 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   isOpen = false;
 
-  minDate = new Date();
+  minDate = startOfDay(new Date());
 
-  maxDate = new Date();
+  maxDate = endOfDay(new Date());
 
   hour?: Swiper;
 
@@ -105,16 +111,28 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
   currentTimeout: any = null;
 
+  reinitMinute = false;
+
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.minDate.setHours(0, 0, 0, 0);
+    if (this.isTwelveHourFormat) {
+      this.generateAmPm(this.minDate, this.maxDate);
+    }
 
-    this.maxDate.setHours(23, 59, 59, 999);
+    if (this.minValue) {
+      this.minDate = parseISO(`${format(new Date(), 'yyyy-MM-dd')} ${this.minValue}`);
+
+      this.selectedHour = format(this.minDate, 'HH');
+    }
+
+    if (this.maxValue) {
+      this.maxDate = parseISO(`${format(new Date(), 'yyyy-MM-dd')} ${this.maxValue}`);
+    }
 
     this.generateHours(this.minDate, this.maxDate);
 
-    this.generateMinutes();
+    this.generateMinutesByHour();
 
     if (this.pickerVarient === 'stacked') {
       this.addStackParentStyle();
@@ -122,10 +140,6 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
     if (this.enableSeconds) {
       this.generateSeconds();
-    }
-
-    if (this.isTwelveHourFormat) {
-      this.generateAmPm(this.minDate, this.maxDate);
     }
   }
 
@@ -151,13 +165,13 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     const minHours = min.getHours();
     const maxHours = max.getHours();
     let hoursCount = this.isTwelveHourFormat ? 13 : 24;
-    hoursCount /= 1;
+    hoursCount /= this.hourStepper;
 
     if (hoursCount > 1) {
       const startIndex = this.isTwelveHourFormat ? 1 : 0;
-
+      // eslint-disable-next-line no-plusplus
       for (let hourIndex = startIndex; hourIndex < 24; hourIndex++) {
-        let hours = hourIndex * 1;
+        let hours = hourIndex * this.hourStepper;
         if (hours >= minHours && hours <= maxHours) {
           hours = this.isTwelveHourFormat ? this.toTwelveHourFormat(hours) : hours;
           if (!hourItems.find((element) => Number(element) === hours)) {
@@ -173,23 +187,39 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     this.hourList = hourItems;
   }
 
-  generateMinutes() {
+  generateMinutes(min: Date, max: Date) {
     const minuteItems = [];
+    const minMinutes = min.getMinutes();
+    const maxMinutes = max.getMinutes();
     const minuteItemsCount = 60 / this.stepper;
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < minuteItemsCount; i++) {
-      const minutes = i * this.stepper < 10 ? `0${i * this.stepper}` : `${i * this.stepper}`;
-
-      minuteItems.push(minutes);
+      const minutes = i * this.stepper;
+      if (minutes >= minMinutes && minutes <= maxMinutes) {
+        const leadZero = i * this.stepper < 10 ? `0${i * this.stepper}` : `${i * this.stepper}`;
+        minuteItems.push(leadZero);
+      }
     }
 
     this.minuteList = minuteItems;
+
+    /* *** Update minute slides after hour is changed
+     Update only if minValue/maxValue is available
+     Timeout is required because swiper update event runs before updating new data *** */
+    if ((this.minValue || this.maxValue) && this.reinitMinute) {
+      setTimeout(() => {
+        this.minute?.update();
+        this.reinitMinute = false;
+      }, 1);
+    }
   }
 
   generateSeconds() {
     const secondItems = [];
-    const secondItemsCount = 60 / this.stepper;
+    const secondItemsCount = 60 / 1;
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < secondItemsCount; i++) {
       const seconds = i * this.stepper < 10 ? `0${i * this.stepper}` : `${i * this.stepper}`;
 
@@ -217,6 +247,18 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     }
 
     this.amPmList = ampmItems;
+  }
+
+  generateMinutesByHour() {
+    const timeFormat = this.isTwelveHourFormat ? 'hh' : 'HH';
+
+    if (this.selectedHour === format(this.minDate, timeFormat)) {
+      this.generateMinutes(this.minDate, endOfDay(new Date()));
+    } else if (this.selectedHour === format(this.maxDate, timeFormat)) {
+      this.generateMinutes(startOfDay(new Date()), this.maxDate);
+    } else {
+      this.generateMinutes(startOfDay(new Date()), endOfDay(new Date()));
+    }
   }
 
   toTwelveHourFormat(hour: number): number {
@@ -314,6 +356,9 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
 
       this.cancelTimeout();
       this.currentTimeout = setTimeout(() => {
+        this.reinitMinute = true;
+        this.generateMinutesByHour();
+
         this.handleChange(value);
       }, 800);
     }
@@ -391,7 +436,10 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   closePicker() {
-    this.isOpen = false;
-    this.renderer.removeClass(this.pickerParentEl, 'picker-open');
+    if (this.isOpen) {
+      this.isOpen = false;
+      this.renderer.removeClass(this.pickerParentEl, this.previousOpenClass);
+      this.previousOpenClass = '';
+    }
   }
 }
